@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 第一部分：配置数据库信息（必须） -->
+		<!-- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql:///hibernate</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">1234</property> -->
+		
+		<!-- 第二部分：配置hibernate信息（可选） -->
+		<!-- 输出底层sql语句 -->
+		<property name="hibernate.show_sql">true</property>
+		<!-- 输出底层sql语句格式化（格式化） -->
+		<property name="hibernate.format_sql">true</property>
+		
+		<!-- 这个自动创建表有问题
+			hibernate创建表，需要配置
+			update：如果已经有表，更新，如果没有，创建之
+		 <property name="hibernate.hbm2dd1.auto">update</property>-->
+		 
+		 
+		<!-- 
+			配置数据库方言
+				在mysql里面实现分页：limit
+				在oracle里面实现分页：rownum
+				让hibernate框架识别不同数据库的特有语言
+		 -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		
+		<!-- 第三部分：把映射文件放到核心配置文件中（相对路径）（必须） -->
+		<mapping resource="cn/shopping/domainImpl/User.hbm.xml"/>
+		<mapping resource="cn/shopping/domainImpl/Book.hbm.xml"/>
+		<mapping resource="cn/shopping/domainImpl/Carts.hbm.xml"/>
+		<mapping resource="cn/shopping/domainImpl/Orders.hbm.xml"/>
+		<mapping resource="cn/shopping/domainImpl/Address.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>

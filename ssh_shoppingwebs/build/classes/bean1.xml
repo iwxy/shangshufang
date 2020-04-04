@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+       
+    <bean id="user" class="cn.shopping.domainImpl.UserImpl"></bean>
+    <bean id="carts" class="cn.shopping.domainImpl.CartsImpl"></bean>
+     <bean id="orders" class="cn.shopping.domainImpl.OrdersImpl"></bean>
+	<!-- 在这里创建action，把action对象创建交给spring进行管理 -->
+	<bean id="loginAction" class="cn.shopping.action.LoginAction" scope="prototype">
+		<!-- 注入service -->
+		<property name="userService" ref="userService"></property>
+		<property name="user" ref="user"></property>
+	</bean>
+	
+	<!-- 创建userService -->
+	<bean id="userService" class="cn.shopping.serviceImpl.UserServiceImpl">
+		<property name="user" ref="user"></property>
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	
+	<!-- 创建userDao -->
+	<bean id="userDao" class="cn.shopping.daoImpl.UserDaoImpl">
+		<property name="user" ref="user"></property>
+		<!-- 注入hibernateTemplate -->
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	
+	<!-- 创建hibernateTemplate对象 -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<!-- 注入sessionFactory -->
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="verifyCode" class="helpjar.VerifyCode"></bean>
+	
+	<bean id="verifyCodeAction" class="helpjar.VerifyCodeAction" scope="prototype">
+		<property name="verifyCode" ref="verifyCode"></property>
+	</bean>
+	
+	<bean id="barAction" class="cn.shopping.action.BarAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+		<property name="cartService" ref="cartService"></property>
+		<property name="orderService" ref="orderService"></property>
+		<property name="bookService" ref="bookService"></property>
+	</bean>
+	
+	<bean id="cartService" class="cn.shopping.serviceImpl.CartServiceImpl">
+		<property name="cartDao" ref="cartDao"></property>
+		<property name="carts" ref="carts"></property>
+	</bean>
+	
+	<bean id="cartDao" class="cn.shopping.daoImpl.CartDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	
+	<bean id="orderService" class="cn.shopping.serviceImpl.OrderServiceImpl">
+		<property name="orderDao" ref="orderDao"></property>
+	</bean>
+	
+	<bean id="orderDao" class="cn.shopping.daoImpl.OrderDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	
+	<bean id="goodsAction" class="cn.shopping.action.GoodsAction" scope="prototype">
+		<property name="bookService" ref="bookService"></property>
+		<property name="cartService" ref="cartService"></property>
+		<property name="orderService" ref="orderService"></property>
+		<property name="carts" ref="carts"></property>
+		<property name="orders" ref="orders"></property>
+	</bean>
+	
+	<bean id="bookService" class="cn.shopping.serviceImpl.BookServiceImpl">
+		<property name="bookDao" ref="bookDao"></property>
+	</bean>
+	
+	<bean id="bookDao" class="cn.shopping.daoImpl.BookDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	
+	<bean id="addressAction" class="cn.shopping.action.AddressAction" scope="prototype">
+		<property name="addressService" ref="addressService"></property>
+	</bean>
+	
+	<bean id="addressService" class="cn.shopping.serviceImpl.AddressServiceImpl">
+		<property name="addressDao" ref="addressDao"></property>
+	</bean>
+	
+	<bean id="addressDao" class="cn.shopping.daoImpl.AddressDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd" >
+	
+<struts>
+	<package name="login" namespace="/" extends="struts-default">
+		<!-- class值是bean.xml文件中配置的action的id值（自己取的名字），免得创建两次 -->
+		<action name="login_*" class="loginAction" method="{1}">
+			<result name="alterPw">alterPw.jsp</result>
+			<allowed-methods>loginName,isEmpty,loginVerify,login,registName,RegistPassword,RegistrePassword,registPhone,regist,alterPassword</allowed-methods>
+		</action>
+		<action name="verifyCodeAction" class="verifyCodeAction"></action>
+		
+	</package>
+	
+	<package name="bar" namespace="/" extends="struts-default">
+		<action name="bar_*" class="barAction" method="{1}">
+			<result name="exit">index.jsp</result>
+			<result name="index">index.jsp</result>
+			<result name="person">person.jsp</result>
+			<result name="cart">cart.jsp</result>
+			<result name="action_cart" type="chain">bar_cart</result>
+			<result name="order">order.jsp</result>
+			<result name="action_order" type="chain">bar_order</result>
+			<result name="search">search.jsp</result>
+			<allowed-methods>exit,person,alterPerson,cart,delCart,order,delOrder,searchGoods</allowed-methods>
+		</action>
+	</package>
+	
+	<package name="goods" namespace="/" extends="struts-default">
+		<action name="goods_*" class="goodsAction" method="{1}">
+			<result name="book">book.jsp</result>
+			<allowed-methods>discript,addCart,alterCart,addOrder</allowed-methods>
+		</action>
+	</package>
+	
+	<package name="address" namespace="/" extends="struts-default">
+		<action name="ad_*" class="addressAction" method="{1}">
+			<result name="order" type="chain">bar_order</result>
+			<result name="address">address.jsp</result>
+			<allowed-methods>save</allowed-methods>
+		</action>
+	</package>
+	
+</struts>
